@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  HOW TO CUSTOMIZE THIS SITE
+  ============================================================
+  1. Search for "Yvonne Haarloev" and replace with your name/brand.
+  2. Each agent card is inside <div class="card"> — swap the
+     emoji, title, description, tags, prompt excerpt, and links.
+  3. To add a video: replace the <div class="video-placeholder">
+     with an <iframe> embed (YouTube/Loom) — see comment inside it.
+  4. To link a real document: change the href="#" on "View Doc"
+     buttons to your file's URL (e.g. a PDF in this same repo, or
+     a Google Doc / Notion link).
+  5. Colors live in the :root CSS variables near the top of <style>.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yvonne Haarloev — AI Agent Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0f;
+    --bg-soft:#101219;
+    --card:#14161f;
+    --card-border:#22252f;
+    --text:#eef0f5;
+    --text-dim:#9aa0ae;
+    --accent:#7c5cff;
+    --accent-2:#22d3ee;
+    --gradient: linear-gradient(135deg, #7c5cff 0%, #22d3ee 100%);
+    --shadow: 0 20px 60px rgba(124,92,255,0.15);
+    --radius: 18px;
+    --maxw: 1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', system-ui, sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{font-family:'Space Grotesk', system-ui, sans-serif;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+
+  /* Background glow */
+  body::before{
+    content:"";
+    position:fixed; top:-20%; left:50%; transform:translateX(-50%);
+    width:900px; height:900px;
+    background: radial-gradient(circle, rgba(124,92,255,0.18) 0%, rgba(34,211,238,0.08) 40%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+
+  /* Nav */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,11,15,0.75);
+    backdrop-filter: blur(12px);
+    border-bottom:1px solid var(--card-border);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px; max-width:var(--maxw); margin:0 auto;
+  }
+  .brand{font-weight:700; font-size:1.15rem; letter-spacing:-0.02em;}
+  .brand span{background:var(--gradient); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .nav-links{display:flex; gap:32px; font-size:0.95rem; color:var(--text-dim);}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    padding:10px 20px; border-radius:999px; background:var(--gradient);
+    color:#0a0b0f !important; font-weight:600; font-size:0.9rem;
+  }
+  .nav-toggle{display:none; background:none; border:none; color:var(--text); font-size:1.4rem; cursor:pointer;}
+
+  /* Hero */
+  .hero{
+    position:relative; z-index:1;
+    padding:120px 24px 90px;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-block; padding:6px 16px; border-radius:999px;
+    border:1px solid var(--card-border); background:var(--card);
+    color:var(--accent-2); font-size:0.82rem; font-weight:500;
+    margin-bottom:28px; letter-spacing:0.02em;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 4.2rem);
+    font-weight:700; letter-spacing:-0.03em; line-height:1.08;
+    max-width:820px; margin:0 auto 22px;
+  }
+  .hero h1 .grad{background:var(--gradient); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p{
+    color:var(--text-dim); font-size:1.15rem; max-width:600px; margin:0 auto 40px;
+  }
+  .hero-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    padding:14px 28px; border-radius:999px; font-weight:600; font-size:0.95rem;
+    display:inline-flex; align-items:center; gap:8px; transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-primary{background:var(--gradient); color:#0a0b0f;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:var(--shadow);}
+  .btn-ghost{border:1px solid var(--card-border); color:var(--text); background:var(--card);}
+  .btn-ghost:hover{border-color:var(--accent); transform:translateY(-2px);}
+
+  /* Stats strip */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--card-border); border:1px solid var(--card-border);
+    border-radius:var(--radius); overflow:hidden; margin-top:64px;
+  }
+  .stat{background:var(--bg-soft); padding:28px 16px; text-align:center;}
+  .stat .num{font-family:'Space Grotesk'; font-size:1.9rem; font-weight:700; color:var(--text);}
+  .stat .label{font-size:0.82rem; color:var(--text-dim); margin-top:4px;}
+
+  /* Section shell */
+  section{position:relative; z-index:1; padding:90px 24px;}
+  .section-head{max-width:600px; margin:0 auto 56px; text-align:center;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head h2{font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; letter-spacing:-0.02em; margin-bottom:14px;}
+  .section-head p{color:var(--text-dim); font-size:1.05rem;}
+
+  /* Agent cards */
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; max-width:var(--maxw); margin:0 auto;}
+  .card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+    padding:28px; display:flex; flex-direction:column; gap:16px;
+    transition:transform .25s ease, border-color .25s ease;
+    opacity:0; transform:translateY(24px);
+  }
+  .card.visible{opacity:1; transform:translateY(0);}
+  .card:hover{transform:translateY(-6px); border-color:rgba(124,92,255,0.5);}
+  .card-icon{
+    width:52px; height:52px; border-radius:14px; background:var(--gradient);
+    display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+  }
+  .card h3{font-size:1.25rem; font-weight:600;}
+  .card .desc{color:var(--text-dim); font-size:0.95rem;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-size:0.75rem; padding:4px 10px; border-radius:999px;
+    background:var(--bg-soft); color:var(--accent-2); border:1px solid var(--card-border);
+  }
+  .video-placeholder{
+    height:150px; border-radius:12px; border:1px dashed var(--card-border);
+    background:var(--bg-soft); display:flex; align-items:center; justify-content:center;
+    color:var(--text-dim); font-size:0.85rem; text-align:center; padding:12px;
+  }
+  details.prompt{
+    background:var(--bg-soft); border:1px solid var(--card-border); border-radius:10px; padding:12px 14px;
+  }
+  details.prompt summary{cursor:pointer; font-size:0.85rem; font-weight:600; color:var(--accent-2);}
+  details.prompt pre{
+    margin-top:10px; white-space:pre-wrap; font-size:0.78rem; color:var(--text-dim);
+    font-family:ui-monospace, 'SFMono-Regular', Consolas, monospace; line-height:1.5;
+  }
+  .card-links{display:flex; gap:10px; margin-top:auto; flex-wrap:wrap;}
+  .card-links a{
+    font-size:0.82rem; font-weight:600; padding:8px 14px; border-radius:999px;
+    border:1px solid var(--card-border); color:var(--text);
+  }
+  .card-links a:hover{border-color:var(--accent);}
+
+  /* Process */
+  .process{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:var(--maxw); margin:0 auto;}
+  .step{
+    background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+    padding:26px 22px; opacity:0; transform:translateY(24px); transition:all .25s ease;
+  }
+  .step.visible{opacity:1; transform:translateY(0);}
+  .step .step-num{
+    font-family:'Space Grotesk'; font-weight:700; font-size:1.6rem;
+    background:var(--gradient); -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:14px; display:block;
+  }
+  .step h3{font-size:1.05rem; margin-bottom:8px;}
+  .step p{color:var(--text-dim); font-size:0.9rem;}
+
+  /* Case study */
+  .case{
+    max-width:var(--maxw); margin:0 auto; background:var(--card); border:1px solid var(--card-border);
+    border-radius:24px; padding:48px; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  }
+  .case h3{font-size:1.6rem; margin-bottom:16px; font-weight:700;}
+  .case .kv{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;}
+  .case .kv div{
+    background:var(--bg-soft); border:1px solid var(--card-border); border-radius:12px;
+    padding:16px 18px; flex:1; min-width:120px;
+  }
+  .case .kv .n{font-family:'Space Grotesk'; font-weight:700; font-size:1.3rem; color:var(--accent-2);}
+  .case .kv .l{font-size:0.78rem; color:var(--text-dim); margin-top:2px;}
+  .case-visual{
+    height:260px; border-radius:16px; background:var(--gradient); opacity:0.15;
+    border:1px solid var(--card-border);
+  }
+
+  /* Skills */
+  .skills-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:var(--maxw); margin:0 auto;}
+  .pill{
+    padding:10px 20px; border-radius:999px; background:var(--card); border:1px solid var(--card-border);
+    font-size:0.9rem; color:var(--text-dim); font-weight:500;
+  }
+
+  /* Contact */
+  .contact{
+    max-width:700px; margin:0 auto; text-align:center; background:var(--card);
+    border:1px solid var(--card-border); border-radius:24px; padding:64px 40px;
+  }
+  .contact h2{font-size:2rem; margin-bottom:14px;}
+  .contact p{color:var(--text-dim); margin-bottom:32px;}
+
+  footer{
+    text-align:center; padding:40px 24px; color:var(--text-dim); font-size:0.85rem;
+    border-top:1px solid var(--card-border);
+  }
+
+  @media (max-width: 900px){
+    .grid{grid-template-columns:1fr;}
+    .process{grid-template-columns:1fr 1fr;}
+    .case{grid-template-columns:1fr; padding:32px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width: 640px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; background:var(--bg-soft);
+      flex-direction:column; padding:20px 24px; gap:18px; border-bottom:1px solid var(--card-border);
+      transform:translateY(-150%); transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-toggle{display:block;}
+    .process{grid-template-columns:1fr;}
+    .hero{padding:90px 20px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="brand">Yvonne <span>Haarloev</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#agents">Agents</a>
+      <a href="#process">Process</a>
+      <a href="#case-study">Case Study</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">🤖 AI Agent Builder &amp; Prompt Engineer</span>
+    <h1>I design AI agents that <span class="grad">actually get work done.</span></h1>
+    <p>A hands-on portfolio of agents, prompts, and workflows I've built — with the reasoning, prompts, and results behind each one.</p>
+    <div class="hero-actions">
+      <a href="#agents" class="btn btn-primary">View My Agents</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">6+</div><div class="label">Agents shipped</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Platforms used</div></div>
+      <div class="stat"><div class="num">100+</div><div class="label">Prompts iterated</div></div>
+      <div class="stat"><div class="num">1</div><div class="label">Constant curiosity</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="section-head">
+    <span class="eyebrow">Featured Work</span>
+    <h2>Agents I've built</h2>
+    <p>Each card includes the problem it solves, the prompt behind it, and a demo. Replace these with your own.</p>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-icon">🔎</div>
+      <h3>Research Assistant Agent</h3>
+      <p class="desc">Pulls, synthesizes, and summarizes information from multiple sources into a structured brief — cutting research time from hours to minutes.</p>
+      <div class="tags"><span class="tag">Claude</span><span class="tag">Web Search</span><span class="tag">RAG</span></div>
+      <div class="video-placeholder">
+        <!-- Replace this div with:
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID" style="width:100%;height:100%;border:0;border-radius:12px;" allowfullscreen></iframe>
+        -->
+        🎬 Demo video goes here
+      </div>
+      <details class="prompt">
+        <summary>View system prompt excerpt</summary>
+        <pre>You are a research assistant. Given a topic, gather information
+from credible sources, cross-check claims, and produce a
+structured brief with: summary, key findings, sources, and
+open questions. Flag any conflicting information...</pre>
+      </details>
+      <div class="card-links">
+        <a href="#">▶ Watch Demo</a>
+        <a href="#">📄 View Doc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">✍️</div>
+      <h3>Content Repurposing Agent</h3>
+      <p class="desc">Takes one long-form piece (a video transcript, article, or podcast) and turns it into platform-ready posts, threads, and captions.</p>
+      <div class="tags"><span class="tag">Prompt Chaining</span><span class="tag">Automation</span></div>
+      <div class="video-placeholder">🎬 Demo video goes here</div>
+      <details class="prompt">
+        <summary>View system prompt excerpt</summary>
+        <pre>You are a content repurposing agent. Given a transcript,
+extract the 3 strongest ideas and rewrite each as: a LinkedIn
+post, a tweet thread, and a short-form video caption. Match
+the original voice and keep each format's native constraints...</pre>
+      </details>
+      <div class="card-links">
+        <a href="#">▶ Watch Demo</a>
+        <a href="#">📄 View Doc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Customer Support Triage Agent</h3>
+      <p class="desc">Classifies incoming support requests, drafts responses, and escalates edge cases — reducing first-response time significantly.</p>
+      <div class="tags"><span class="tag">Classification</span><span class="tag">Tool Use</span></div>
+      <div class="video-placeholder">🎬 Demo video goes here</div>
+      <details class="prompt">
+        <summary>View system prompt excerpt</summary>
+        <pre>You are a support triage agent. Classify each ticket by
+urgency and topic, draft a reply using the knowledge base,
+and escalate to a human when confidence is low or the
+customer expresses frustration...</pre>
+      </details>
+      <div class="card-links">
+        <a href="#">▶ Watch Demo</a>
+        <a href="#">📄 View Doc</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="process">
+  <div class="section-head">
+    <span class="eyebrow">How I Work</span>
+    <h2>From problem to working agent</h2>
+    <p>The same process behind every project on this page.</p>
+  </div>
+  <div class="process">
+    <div class="step">
+      <span class="step-num">01</span>
+      <h3>Define the job</h3>
+      <p>Get specific about the task, the inputs, and what "done well" looks like before writing a single prompt.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <h3>Design the prompt</h3>
+      <p>Draft, test, and iterate the system prompt — including edge cases and failure modes.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <h3>Evaluate</h3>
+      <p>Run real examples through the agent, measure quality, and tighten instructions where it breaks.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <h3>Ship &amp; iterate</h3>
+      <p>Deploy, gather real usage, and keep refining based on what actually happens.</p>
+    </div>
+  </div>
+</section>
+
+<section id="case-study">
+  <div class="section-head">
+    <span class="eyebrow">Case Study</span>
+    <h2>A deeper look at one project</h2>
+  </div>
+  <div class="case">
+    <div>
+      <h3>Cutting research time by 80% with a multi-step agent</h3>
+      <p style="color:var(--text-dim)">Replace this with a short story: what the problem was, why existing tools didn't solve it, what you built, and what changed as a result. Keep it concrete — numbers and specifics beat adjectives.</p>
+      <div class="kv">
+        <div><div class="n">80%</div><div class="l">Time saved</div></div>
+        <div><div class="n">3</div><div class="l">Iterations to reliable</div></div>
+        <div><div class="n">2 wks</div><div class="l">Build time</div></div>
+      </div>
+    </div>
+    <div class="case-visual"></div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-head">
+    <span class="eyebrow">Toolkit</span>
+    <h2>What I work with</h2>
+  </div>
+  <div class="skills-row">
+    <span class="pill">Claude / Anthropic API</span>
+    <span class="pill">Prompt Engineering</span>
+    <span class="pill">Agentic Workflows</span>
+    <span class="pill">RAG</span>
+    <span class="pill">Automation (Zapier/Make)</span>
+    <span class="pill">Python</span>
+    <span class="pill">Evals &amp; Testing</span>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact">
+    <h2>Let's talk about what AI can do for you</h2>
+    <p>Have a workflow you'd like automated, or want to see more of my work? Reach out.</p>
+    <a href="mailto:yhaarloev@hotmail.com" class="btn btn-primary">yhaarloev@hotmail.com</a>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Yvonne Haarloev — Built with Claude, deployed on GitHub Pages.
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.card, .step').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
