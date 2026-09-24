@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yvonne Haarloev — AI Agent Builder</title>
 <meta name="description" content="Yvonne Haarloev designs AI agents for marketing and business teams: agents that read, score, track and draft, with people making the calls.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0a0b0f;
@@ -22,17 +19,19 @@
     --shadow: 0 20px 60px rgba(124,92,255,0.15);
     --radius: 18px;
     --maxw: 1120px;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-head: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI Variable Display', 'Segoe UI', Roboto, sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
     background:var(--bg);
     color:var(--text);
-    font-family:'Inter', system-ui, sans-serif;
+    font-family:var(--font-body);
     line-height:1.6;
     overflow-x:hidden;
   }
-  h1,h2,h3,.brand{font-family:'Space Grotesk', system-ui, sans-serif;}
+  h1,h2,h3,.brand{font-family:var(--font-head);}
   a{color:inherit; text-decoration:none;}
   img{max-width:100%;}
   .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
@@ -101,7 +100,7 @@
     border-radius:var(--radius); overflow:hidden; margin-top:64px;
   }
   .stat{background:var(--bg-soft); padding:28px 16px; text-align:center;}
-  .stat .num{font-family:'Space Grotesk'; font-size:1.9rem; font-weight:700; color:var(--text);}
+  .stat .num{font-family:var(--font-head); font-size:1.9rem; font-weight:700; color:var(--text);}
   .stat .label{font-size:0.82rem; color:var(--text-dim); margin-top:4px;}
 
   section{position:relative; z-index:1; padding:90px 24px;}
@@ -149,6 +148,7 @@
     margin-top:10px; white-space:pre-wrap; font-size:0.78rem; color:var(--text-dim);
     font-family:ui-monospace, 'SFMono-Regular', Consolas, monospace; line-height:1.5;
   }
+  .card .note{font-size:0.8rem; color:var(--text-dim); font-style:italic;}
   .card-links{display:flex; gap:10px; margin-top:auto; flex-wrap:wrap;}
   .card-links a{
     font-size:0.82rem; font-weight:600; padding:8px 14px; border-radius:999px;
@@ -164,7 +164,7 @@
   }
   .step.visible{opacity:1; transform:translateY(0);}
   .step .step-num{
-    font-family:'Space Grotesk'; font-weight:700; font-size:1.6rem;
+    font-family:var(--font-head); font-weight:700; font-size:1.6rem;
     background:var(--gradient); -webkit-background-clip:text; background-clip:text; color:transparent;
     margin-bottom:14px; display:block;
   }
@@ -183,7 +183,7 @@
     background:var(--bg-soft); border:1px solid var(--card-border); border-radius:12px;
     padding:16px 18px; flex:1; min-width:120px;
   }
-  .case .kv .n{font-family:'Space Grotesk'; font-weight:700; font-size:1.3rem; color:var(--accent-2);}
+  .case .kv .n{font-family:var(--font-head); font-weight:700; font-size:1.3rem; color:var(--accent-2);}
   .case .kv .l{font-size:0.78rem; color:var(--text-dim); margin-top:2px;}
   .case .shot{aspect-ratio:4/5;}
   .case .shot img{object-position:left top;}
@@ -207,6 +207,9 @@
     text-align:center; padding:40px 24px; color:var(--text-dim); font-size:0.85rem;
     border-top:1px solid var(--card-border);
   }
+  footer .fine{max-width:760px; margin:10px auto 0; font-size:0.76rem; line-height:1.55;}
+  footer .fine a{text-decoration:underline;}
+  footer .fine strong{color:var(--text);}
 
   @media (max-width: 900px){
     .grid{grid-template-columns:1fr;}
@@ -298,6 +301,7 @@ tailored resume belong to the candidate.
 Tailoring rule: use ONLY facts stated in the base resume. Never
 invent employers, titles, dates, metrics, tools or certifications.</pre>
       </details>
+      <p class="note">The public demo uses placeholder companies and fictional data. My real tracker stays private.</p>
       <div class="card-links">
         <a class="primary" href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" target="_blank" rel="noopener">▶ Live demo</a>
         <a href="https://github.com/yhaarloev-dev-design/ai-job-search-agent" target="_blank" rel="noopener">📄 Case study &amp; prompts</a>
@@ -409,7 +413,9 @@ invent employers, titles, dates, metrics, tools or certifications.</pre>
 </section>
 
 <footer>
-  © <span id="year"></span> Yvonne Haarloev — Built with Claude, deployed on GitHub Pages.
+  <p>© <span id="year"></span> Yvonne Haarloev — Built with Claude, deployed on GitHub Pages.</p>
+  <p class="fine">Independent portfolio. Views are my own and not those of any current or former employer. Claude, Microsoft Copilot and Copilot Studio are trademarks of their respective owners; no affiliation or endorsement is implied. Project demos use fictional data.</p>
+  <p class="fine"><strong>Privacy:</strong> this site sets no cookies, uses no analytics or tracking, and loads no third-party fonts or scripts. It is hosted on GitHub Pages, which may log visitors' IP addresses for security (see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's privacy statement</a>). Email me and I'll only use your message to reply.</p>
 </footer>
 
 <script>
