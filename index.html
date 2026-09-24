@@ -1,24 +1,10 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  HOW TO CUSTOMIZE THIS SITE
-  ============================================================
-  1. Search for "Yvonne Haarloev" and replace with your name/brand.
-  2. Each agent card is inside <div class="card"> — swap the
-     emoji, title, description, tags, prompt excerpt, and links.
-  3. To add a video: replace the <div class="video-placeholder">
-     with an <iframe> embed (YouTube/Loom) — see comment inside it.
-  4. To link a real document: change the href="#" on "View Doc"
-     buttons to your file's URL (e.g. a PDF in this same repo, or
-     a Google Doc / Notion link).
-  5. Colors live in the :root CSS variables near the top of <style>.
-  ============================================================
--->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yvonne Haarloev — AI Agent Builder</title>
+<meta name="description" content="Yvonne Haarloev designs AI agents for marketing and business teams: agents that read, score, track and draft, with people making the calls.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -51,7 +37,6 @@
   img{max-width:100%;}
   .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
 
-  /* Background glow */
   body::before{
     content:"";
     position:fixed; top:-20%; left:50%; transform:translateX(-50%);
@@ -60,7 +45,6 @@
     pointer-events:none; z-index:0;
   }
 
-  /* Nav */
   header{
     position:sticky; top:0; z-index:50;
     background:rgba(10,11,15,0.75);
@@ -81,7 +65,6 @@
   }
   .nav-toggle{display:none; background:none; border:none; color:var(--text); font-size:1.4rem; cursor:pointer;}
 
-  /* Hero */
   .hero{
     position:relative; z-index:1;
     padding:120px 24px 90px;
@@ -100,7 +83,7 @@
   }
   .hero h1 .grad{background:var(--gradient); -webkit-background-clip:text; background-clip:text; color:transparent;}
   .hero p{
-    color:var(--text-dim); font-size:1.15rem; max-width:600px; margin:0 auto 40px;
+    color:var(--text-dim); font-size:1.15rem; max-width:620px; margin:0 auto 40px;
   }
   .hero-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
   .btn{
@@ -112,7 +95,6 @@
   .btn-ghost{border:1px solid var(--card-border); color:var(--text); background:var(--card);}
   .btn-ghost:hover{border-color:var(--accent); transform:translateY(-2px);}
 
-  /* Stats strip */
   .stats{
     display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
     background:var(--card-border); border:1px solid var(--card-border);
@@ -122,14 +104,12 @@
   .stat .num{font-family:'Space Grotesk'; font-size:1.9rem; font-weight:700; color:var(--text);}
   .stat .label{font-size:0.82rem; color:var(--text-dim); margin-top:4px;}
 
-  /* Section shell */
   section{position:relative; z-index:1; padding:90px 24px;}
-  .section-head{max-width:600px; margin:0 auto 56px; text-align:center;}
+  .section-head{max-width:640px; margin:0 auto 56px; text-align:center;}
   .section-head .eyebrow{margin-bottom:16px;}
   .section-head h2{font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; letter-spacing:-0.02em; margin-bottom:14px;}
   .section-head p{color:var(--text-dim); font-size:1.05rem;}
 
-  /* Agent cards */
   .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; max-width:var(--maxw); margin:0 auto;}
   .card{
     background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
@@ -139,22 +119,28 @@
   }
   .card.visible{opacity:1; transform:translateY(0);}
   .card:hover{transform:translateY(-6px); border-color:rgba(124,92,255,0.5);}
+  .card.feature{grid-column:span 2;}
+  .card.next{border-style:dashed;}
   .card-icon{
     width:52px; height:52px; border-radius:14px; background:var(--gradient);
     display:flex; align-items:center; justify-content:center; font-size:1.4rem;
   }
   .card h3{font-size:1.25rem; font-weight:600;}
   .card .desc{color:var(--text-dim); font-size:0.95rem;}
+  .card ul{color:var(--text-dim); font-size:0.92rem; padding-left:18px; display:grid; gap:6px;}
+  .card ul strong{color:var(--text); font-weight:600;}
+  .status{font-size:0.75rem; font-weight:600; color:#0a0b0f; background:var(--accent-2); border-radius:999px; padding:3px 10px; align-self:flex-start;}
   .tags{display:flex; flex-wrap:wrap; gap:8px;}
   .tag{
     font-size:0.75rem; padding:4px 10px; border-radius:999px;
     background:var(--bg-soft); color:var(--accent-2); border:1px solid var(--card-border);
   }
-  .video-placeholder{
-    height:150px; border-radius:12px; border:1px dashed var(--card-border);
-    background:var(--bg-soft); display:flex; align-items:center; justify-content:center;
-    color:var(--text-dim); font-size:0.85rem; text-align:center; padding:12px;
+  .shot{
+    display:block; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);
+    background:var(--bg-soft); aspect-ratio:16/9;
   }
+  .shot img{width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform .4s ease;}
+  .shot:hover img{transform:scale(1.02);}
   details.prompt{
     background:var(--bg-soft); border:1px solid var(--card-border); border-radius:10px; padding:12px 14px;
   }
@@ -169,8 +155,8 @@
     border:1px solid var(--card-border); color:var(--text);
   }
   .card-links a:hover{border-color:var(--accent);}
+  .card-links a.primary{background:var(--gradient); color:#0a0b0f; border-color:transparent;}
 
-  /* Process */
   .process{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:var(--maxw); margin:0 auto;}
   .step{
     background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
@@ -185,38 +171,37 @@
   .step h3{font-size:1.05rem; margin-bottom:8px;}
   .step p{color:var(--text-dim); font-size:0.9rem;}
 
-  /* Case study */
   .case{
     max-width:var(--maxw); margin:0 auto; background:var(--card); border:1px solid var(--card-border);
     border-radius:24px; padding:48px; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
   }
   .case h3{font-size:1.6rem; margin-bottom:16px; font-weight:700;}
+  .case p{color:var(--text-dim); margin-bottom:12px;}
+  .case p strong{color:var(--text);}
   .case .kv{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;}
-  .case .kv div{
+  .case .kv > div{
     background:var(--bg-soft); border:1px solid var(--card-border); border-radius:12px;
     padding:16px 18px; flex:1; min-width:120px;
   }
   .case .kv .n{font-family:'Space Grotesk'; font-weight:700; font-size:1.3rem; color:var(--accent-2);}
   .case .kv .l{font-size:0.78rem; color:var(--text-dim); margin-top:2px;}
-  .case-visual{
-    height:260px; border-radius:16px; background:var(--gradient); opacity:0.15;
-    border:1px solid var(--card-border);
-  }
+  .case .shot{aspect-ratio:4/5;}
+  .case .shot img{object-position:left top;}
+  .case .card-links{margin-top:22px;}
 
-  /* Skills */
   .skills-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:var(--maxw); margin:0 auto;}
   .pill{
     padding:10px 20px; border-radius:999px; background:var(--card); border:1px solid var(--card-border);
     font-size:0.9rem; color:var(--text-dim); font-weight:500;
   }
 
-  /* Contact */
   .contact{
     max-width:700px; margin:0 auto; text-align:center; background:var(--card);
     border:1px solid var(--card-border); border-radius:24px; padding:64px 40px;
   }
   .contact h2{font-size:2rem; margin-bottom:14px;}
   .contact p{color:var(--text-dim); margin-bottom:32px;}
+  .contact .hero-actions{margin-top:0;}
 
   footer{
     text-align:center; padding:40px 24px; color:var(--text-dim); font-size:0.85rem;
@@ -225,6 +210,7 @@
 
   @media (max-width: 900px){
     .grid{grid-template-columns:1fr;}
+    .card.feature{grid-column:auto;}
     .process{grid-template-columns:1fr 1fr;}
     .case{grid-template-columns:1fr; padding:32px;}
     .stats{grid-template-columns:repeat(2,1fr);}
@@ -239,6 +225,7 @@
     .nav-toggle{display:block;}
     .process{grid-template-columns:1fr;}
     .hero{padding:90px 20px 60px;}
+    .contact{padding:48px 24px;}
   }
 </style>
 </head>
@@ -260,19 +247,19 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">🤖 AI Agent Builder &amp; Prompt Engineer</span>
+    <span class="eyebrow">🤖 AI Agent Builder &amp; Product Marketing Leader</span>
     <h1>I design AI agents that <span class="grad">actually get work done.</span></h1>
-    <p>A hands-on portfolio of agents, prompts, and workflows I've built — with the reasoning, prompts, and results behind each one.</p>
+    <p>Twenty years of taking enterprise AI and business apps to market, now applied to building agents that read, score, track and draft, while people make the calls.</p>
     <div class="hero-actions">
       <a href="#agents" class="btn btn-primary">View My Agents</a>
-      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      <a href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" class="btn btn-ghost" target="_blank" rel="noopener">Try the live demo</a>
     </div>
 
     <div class="stats">
-      <div class="stat"><div class="num">6+</div><div class="label">Agents shipped</div></div>
-      <div class="stat"><div class="num">3</div><div class="label">Platforms used</div></div>
-      <div class="stat"><div class="num">100+</div><div class="label">Prompts iterated</div></div>
-      <div class="stat"><div class="num">1</div><div class="label">Constant curiosity</div></div>
+      <div class="stat"><div class="num">99</div><div class="label">Job postings read in full &amp; scored on day one</div></div>
+      <div class="stat"><div class="num">18</div><div class="label">Saved searches the agent runs every weekday</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Role tracks scored with one written rubric</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">Actions taken without a human decision</div></div>
     </div>
   </div>
 </section>
@@ -281,69 +268,54 @@
   <div class="section-head">
     <span class="eyebrow">Featured Work</span>
     <h2>Agents I've built</h2>
-    <p>Each card includes the problem it solves, the prompt behind it, and a demo. Replace these with your own.</p>
+    <p>Each project shows the problem it solves, the prompts behind it and a demo you can click through.</p>
   </div>
   <div class="grid">
 
-    <div class="card">
-      <div class="card-icon">🔎</div>
-      <h3>Research Assistant Agent</h3>
-      <p class="desc">Pulls, synthesizes, and summarizes information from multiple sources into a structured brief — cutting research time from hours to minutes.</p>
-      <div class="tags"><span class="tag">Claude</span><span class="tag">Web Search</span><span class="tag">RAG</span></div>
-      <div class="video-placeholder">
-        <!-- Replace this div with:
-        <iframe src="https://www.youtube.com/embed/VIDEO_ID" style="width:100%;height:100%;border:0;border-radius:12px;" allowfullscreen></iframe>
-        -->
-        🎬 Demo video goes here
-      </div>
+    <div class="card feature">
+      <div class="card-icon">🎯</div>
+      <span class="status">Live · in daily use</span>
+      <h3>AI Job Search Agent</h3>
+      <p class="desc">A scheduled agent that reads every relevant job posting in full, scores it against my profile and feeds a tracker with an application pipeline, a dashboard and truthful resume tailoring.</p>
+      <a class="shot" href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" target="_blank" rel="noopener" aria-label="Open the live demo">
+        <img src="https://yhaarloev-dev-design.github.io/ai-job-search-agent/screenshot-dashboard.png" alt="Dashboard of the AI job search agent: pipeline by stage, best new matches, upcoming next steps and fit-score distribution" loading="lazy">
+      </a>
+      <ul>
+        <li><strong>Reads to the end.</strong> Office policy, location and pay are usually in the last paragraph, so nothing is scored from the search card alone.</li>
+        <li><strong>Human in the loop.</strong> The agent adds and informs. It never applies, messages or changes a decision I've made.</li>
+        <li><strong>Truthful tailoring.</strong> Resumes are rewritten only from real experience. Posting keywords I can't honestly claim are flagged in red.</li>
+      </ul>
+      <div class="tags"><span class="tag">Claude</span><span class="tag">Scheduled agent</span><span class="tag">Browser use</span><span class="tag">Scoring rubric</span><span class="tag">Human in the loop</span></div>
       <details class="prompt">
-        <summary>View system prompt excerpt</summary>
-        <pre>You are a research assistant. Given a topic, gather information
-from credible sources, cross-check claims, and produce a
-structured brief with: summary, key findings, sources, and
-open questions. Flag any conflicting information...</pre>
+        <summary>View prompt excerpt</summary>
+        <pre>Read every remaining posting IN FULL. Read to the end: the office
+policy, required location and pay range are usually in the last
+paragraphs. Never rely on the search-result card's location.
+
+Never modify existing jobs. Their stage, application fields and
+tailored resume belong to the candidate.
+
+Tailoring rule: use ONLY facts stated in the base resume. Never
+invent employers, titles, dates, metrics, tools or certifications.</pre>
       </details>
       <div class="card-links">
-        <a href="#">▶ Watch Demo</a>
-        <a href="#">📄 View Doc</a>
+        <a class="primary" href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" target="_blank" rel="noopener">▶ Live demo</a>
+        <a href="https://github.com/yhaarloev-dev-design/ai-job-search-agent" target="_blank" rel="noopener">📄 Case study &amp; prompts</a>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-icon">✍️</div>
-      <h3>Content Repurposing Agent</h3>
-      <p class="desc">Takes one long-form piece (a video transcript, article, or podcast) and turns it into platform-ready posts, threads, and captions.</p>
-      <div class="tags"><span class="tag">Prompt Chaining</span><span class="tag">Automation</span></div>
-      <div class="video-placeholder">🎬 Demo video goes here</div>
-      <details class="prompt">
-        <summary>View system prompt excerpt</summary>
-        <pre>You are a content repurposing agent. Given a transcript,
-extract the 3 strongest ideas and rewrite each as: a LinkedIn
-post, a tweet thread, and a short-form video caption. Match
-the original voice and keep each format's native constraints...</pre>
-      </details>
+    <div class="card next">
+      <div class="card-icon">🧭</div>
+      <span class="status" style="background:var(--card-border);color:var(--text)">Next up</span>
+      <h3>What I'm building next</h3>
+      <p class="desc">Agents for marketing teams, built with the same principles: read the real source, show the reasoning, keep people in charge.</p>
+      <ul>
+        <li><strong>Competitive intel agent:</strong> tracks competitor launches and drafts battlecard updates for review.</li>
+        <li><strong>Launch kit agent:</strong> turns a product brief into messaging, FAQs and enablement drafts.</li>
+        <li><strong>Company research brief:</strong> one-click interview prep for any role that reaches a screen.</li>
+      </ul>
       <div class="card-links">
-        <a href="#">▶ Watch Demo</a>
-        <a href="#">📄 View Doc</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">💬</div>
-      <h3>Customer Support Triage Agent</h3>
-      <p class="desc">Classifies incoming support requests, drafts responses, and escalates edge cases — reducing first-response time significantly.</p>
-      <div class="tags"><span class="tag">Classification</span><span class="tag">Tool Use</span></div>
-      <div class="video-placeholder">🎬 Demo video goes here</div>
-      <details class="prompt">
-        <summary>View system prompt excerpt</summary>
-        <pre>You are a support triage agent. Classify each ticket by
-urgency and topic, draft a reply using the knowledge base,
-and escalate to a human when confidence is low or the
-customer expresses frustration...</pre>
-      </details>
-      <div class="card-links">
-        <a href="#">▶ Watch Demo</a>
-        <a href="#">📄 View Doc</a>
+        <a href="#contact">💬 Talk to me about these</a>
       </div>
     </div>
 
@@ -365,17 +337,17 @@ customer expresses frustration...</pre>
     <div class="step">
       <span class="step-num">02</span>
       <h3>Design the prompt</h3>
-      <p>Draft, test, and iterate the system prompt — including edge cases and failure modes.</p>
+      <p>Draft, test, and iterate the instructions, including guardrails, edge cases and failure modes.</p>
     </div>
     <div class="step">
       <span class="step-num">03</span>
       <h3>Evaluate</h3>
-      <p>Run real examples through the agent, measure quality, and tighten instructions where it breaks.</p>
+      <p>Run real examples through the agent, check the output against the source, and tighten instructions where it breaks.</p>
     </div>
     <div class="step">
       <span class="step-num">04</span>
       <h3>Ship &amp; iterate</h3>
-      <p>Deploy, gather real usage, and keep refining based on what actually happens.</p>
+      <p>Deploy, use it daily, and keep refining based on what actually happens.</p>
     </div>
   </div>
 </section>
@@ -387,15 +359,23 @@ customer expresses frustration...</pre>
   </div>
   <div class="case">
     <div>
-      <h3>Cutting research time by 80% with a multi-step agent</h3>
-      <p style="color:var(--text-dim)">Replace this with a short story: what the problem was, why existing tools didn't solve it, what you built, and what changed as a result. Keep it concrete — numbers and specifics beat adjectives.</p>
+      <h3>A job search agent that reads every posting to the end</h3>
+      <p><strong>The problem.</strong> Job search results mislead. One role was listed as remote on the search card, but the last paragraph of the posting required three days a week in an office in another state. With dozens of new postings each weekday across three role tracks, the strong fits were getting buried.</p>
+      <p><strong>What I built.</strong> A scheduled agent that runs 18 saved searches every weekday, reads each new posting in full and scores it with a written rubric. Every role gets a "why it fits" and a mandatory "watch-outs" note. The results feed a tracker with a dashboard, an application pipeline and one-click resume tailoring that can't invent experience.</p>
+      <p><strong>What changed.</strong> On day one, 99 relevant roles were read and scored. Every weekday morning the new ones are waiting, with a one-line summary on my phone. Each feature (filters, pipeline, list view, tailoring, dashboard) came from using it and fixing what got in the way.</p>
       <div class="kv">
-        <div><div class="n">80%</div><div class="l">Time saved</div></div>
-        <div><div class="n">3</div><div class="l">Iterations to reliable</div></div>
-        <div><div class="n">2 wks</div><div class="l">Build time</div></div>
+        <div><div class="n">99</div><div class="l">Roles read &amp; scored, day one</div></div>
+        <div><div class="n">8 AM</div><div class="l">Weekday digest to my phone</div></div>
+        <div><div class="n">1 day</div><div class="l">From idea to working tracker</div></div>
+      </div>
+      <div class="card-links">
+        <a class="primary" href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" target="_blank" rel="noopener">▶ Try the live demo</a>
+        <a href="https://github.com/yhaarloev-dev-design/ai-job-search-agent" target="_blank" rel="noopener">📄 Read the full case study</a>
       </div>
     </div>
-    <div class="case-visual"></div>
+    <a class="shot" href="https://yhaarloev-dev-design.github.io/ai-job-search-agent/" target="_blank" rel="noopener" aria-label="Open the live demo">
+      <img src="https://yhaarloev-dev-design.github.io/ai-job-search-agent/screenshot-resume-tailoring.png" alt="Resume tailoring view: how you match, keywords covered and not claimable, what changed and why" loading="lazy">
+    </a>
   </div>
 </section>
 
@@ -408,19 +388,23 @@ customer expresses frustration...</pre>
     <span class="pill">Claude / Anthropic</span>
     <span class="pill">Prompt Engineering</span>
     <span class="pill">Agentic Workflows</span>
-    <span class="pill">RAG</span>
+    <span class="pill">Scheduled &amp; Browser Agents</span>
+    <span class="pill">Human-in-the-Loop Design</span>
     <span class="pill">Microsoft Copilot</span>
     <span class="pill">Microsoft Copilot Studio</span>
-    <span class="pill">Python</span>
     <span class="pill">Evals &amp; Testing</span>
+    <span class="pill">Go-to-Market &amp; Enablement</span>
   </div>
 </section>
 
 <section id="contact">
   <div class="contact">
-    <h2>Let's talk about what AI can do for you</h2>
+    <h2>Let's talk about what AI can do for your team</h2>
     <p>Have a workflow you'd like automated, or want to see more of my work? Reach out.</p>
-    <a href="mailto:yhaarloev@hotmail.com" class="btn btn-primary">yhaarloev@hotmail.com</a>
+    <div class="hero-actions">
+      <a href="mailto:yhaarloev@hotmail.com" class="btn btn-primary">yhaarloev@hotmail.com</a>
+      <a href="https://www.linkedin.com/in/yvonne-haarloev/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </div>
 </section>
 
