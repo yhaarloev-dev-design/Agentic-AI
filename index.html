@@ -203,6 +203,9 @@
   .contact p{color:var(--text-dim); margin-bottom:32px;}
   .contact .hero-actions{margin-top:0;}
 
+  [hidden]{display:none !important;}
+  button.btn{border:0; cursor:pointer; font-family:inherit;}
+  button.btn-ghost{border:1px solid var(--card-border);}
   footer{
     text-align:center; padding:40px 24px; color:var(--text-dim); font-size:0.85rem;
     border-top:1px solid var(--card-border);
@@ -406,7 +409,8 @@ invent employers, titles, dates, metrics, tools or certifications.</pre>
     <h2>Let's talk about what AI can do for your team</h2>
     <p>Have a workflow you'd like automated, or want to see more of my work? Reach out.</p>
     <div class="hero-actions">
-      <a href="mailto:yhaarloev@gmail.com" class="btn btn-primary">yhaarloev@gmail.com</a>
+      <button type="button" class="btn btn-primary" id="showEmail" aria-live="polite">✉️ Show email</button>
+      <button type="button" class="btn btn-ghost" id="copyEmail" hidden>Copy</button>
       <a href="https://www.linkedin.com/in/yvonne-haarloev/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
@@ -420,6 +424,22 @@ invent employers, titles, dates, metrics, tools or certifications.</pre>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Email is assembled only when a visitor clicks, so it never appears in the page source for spam bots.
+  (function(){
+    const btn = document.getElementById('showEmail'), copy = document.getElementById('copyEmail');
+    const addr = () => ['yhaarloev', 'gmail.com'].join('@');
+    btn.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.className = 'btn btn-primary'; a.href = 'mailto:' + addr(); a.textContent = addr();
+      btn.replaceWith(a); copy.hidden = false; a.focus();
+    });
+    copy.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(addr()); copy.textContent = 'Copied ✓'; }
+      catch (e) { copy.textContent = addr(); }
+      setTimeout(() => { copy.textContent = 'Copy'; }, 2000);
+    });
+  })();
 
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
